@@ -1,0 +1,27 @@
+plugins {
+    id 'java'
+}
+
+group 'ru.yzuykov.jsandbox'
+version '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+task kubectlApply(type: Exec) {
+    workingDir "${rootDir}/kubernetes"
+    commandLine 'kubectl', 'apply', '-f', './manifests/', '--recursive'
+    doLast {
+        println "Executed!"
+    }
+}
+
+dependencies {
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.2'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.2'
+}
+
+test {
+    useJUnitPlatform()
+}

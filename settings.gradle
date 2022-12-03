@@ -1,2 +1,4 @@
 rootProject.name = 'jsandbox'
+include 'application'
+include 'kubernetes'
 
