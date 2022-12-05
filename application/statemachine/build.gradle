@@ -1,0 +1,49 @@
+buildscript {
+    ext {
+        statemachineVersion = '3.0.1'
+    }
+}
+
+plugins {
+    id 'java'
+}
+
+group 'ru.yzuykov.jsandbox'
+version '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+configurations {
+    all {
+        exclude group: 'org.springframework.boot', module: 'spring-boot-starter-logging'
+    }
+}
+
+compileJava.options.encoding = 'UTF-8'
+
+
+dependencies {
+    implementation project(':application:dao')
+    implementation platform('org.springframework.boot:spring-boot-dependencies:2.5.5')
+    implementation 'org.springframework.boot:spring-boot-starter-log4j2'
+    implementation "org.springframework.statemachine:spring-statemachine-starter:$statemachineVersion"
+    implementation "org.springframework.statemachine:spring-statemachine-data-jpa:$statemachineVersion"
+    compileOnly group: 'org.projectlombok', name: 'lombok', version: '1.18.22'
+    annotationProcessor group: 'org.projectlombok', name: 'lombok', version: '1.18.22'
+    testImplementation('org.springframework.boot:spring-boot-starter-test') {
+        exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
+    }
+    testImplementation "org.springframework.statemachine:spring-statemachine-test:$statemachineVersion"
+
+}
+
+test {
+    useJUnitPlatform()
+    systemProperty "file.encoding", "utf-8"
+}
+
+tasks.withType(JavaCompile) {
+    options.encoding = 'utf-8'
+}
